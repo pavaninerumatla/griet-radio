@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GRIET RADIO - AI PROJECT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI';
+background:linear-gradient(135deg,#0f172a,#1e293b,#020617);
+color:white;
+}
+
+/* LOGIN */
+#loginPage{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:rgba(255,255,255,0.08);
+padding:40px;
+border-radius:15px;
+text-align:center;
+}
+
+input{
+padding:10px;
+margin:10px;
+width:90%;
+border-radius:8px;
+border:none;
+}
+
+button{
+padding:10px;
+border:none;
+border-radius:8px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+}
+
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:rgba(0,0,0,0.6);
+}
+
+nav a{
+color:white;
+margin:10px;
+cursor:pointer;
+}
+
+/* HOME */
+.hero{
+position:relative;
+}
+.hero img{
+width:100%;
+height:100vh;
+object-fit:cover;
+filter:brightness(40%);
+}
+.hero-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
+}
+.card:hover{transform:scale(1.05);}
+
+.info{
+background:rgba(255,255,255,0.08);
+margin:20px;
+padding:20px;
+border-radius:12px;
+}
+
+.page{display:none}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+<div class="box">
+<h2>GRIET RADIO 🎙</h2>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
+<p id="msg"></p>
+</div>
+</div>
+
+<!-- MAIN -->
+<div id="site" style="display:none">
+
+<header>
+<h2>GRIET RADIO</h2>
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('departments')">Departments</a>
+<a onclick="showPage('clubs')">Clubs</a>
+<a onclick="showPage('podcasts')">Podcasts</a>
+<a onclick="showPage('announcements')">Announcements</a>
+<a onclick="startAssistant()">🎤 Assistant</a>
+<a onclick="logout()">Logout</a>
+</nav>
+</header>
+
+<!-- HOME -->
+<div id="home" class="page hero">
+<img src="griet.jpg">
+<div class="hero-text">
+<h1>Welcome to GRIET RADIO</h1>
+<p>Student Voice • Innovation • Events</p>
+</div>
+</div>
+
+<!-- DEPARTMENTS -->
+<div id="departments" class="page">
+<h2 style="padding:20px">Departments</h2>
+<div class="grid">
+<div class="card" onclick="openYear('CSE')">CSE</div>
+<div class="card" onclick="openYear('IT')">IT</div>
+<div class="card" onclick="openYear('ECE')">ECE</div>
+<div class="card" onclick="openYear('EEE')">EEE</div>
+<div class="card" onclick="openYear('MECH')">MECH</div>
+<div class="card" onclick="openYear('CIVIL')">CIVIL</div>
+<div class="card" onclick="openYear('DS')">DATA SCIENCE</div>
+<div class="card" onclick="openYear('AIML')">AI & ML</div>
+</div>
+</div>
+
+<!-- YEARS -->
+<div id="years" class="page">
+<h2 id="branchTitle" style="padding:20px"></h2>
+<div class="grid">
+<div class="card" onclick="openEvents(1)">1st Year</div>
+<div class="card" onclick="openEvents(2)">2nd Year</div>
+<div class="card" onclick="openEvents(3)">3rd Year</div>
+<div class="card" onclick="openEvents(4)">4th Year</div>
+</div>
+</div>
+
+<!-- EVENTS -->
+<div id="events" class="page">
+<h2 style="padding:20px">Events</h2>
+<div id="eventList"></div>
+</div>
+
+<!-- CLUBS -->
+<div id="clubs" class="page">
+<h2 style="padding:20px">Clubs</h2>
+
+<div class="info">
+<h3>Coding Club</h3>
+<p>Members: 120+</p>
+<p>Faculty: Dr. Ramesh</p>
+<p>Competitive coding & hackathons</p>
+<button onclick="alert('Joined Coding Club')">Join</button>
+</div>
+
+<div class="info">
+<h3>AI Club</h3>
+<p>Members: 90+</p>
+<p>Faculty: Dr. Sneha</p>
+<p>AI & ML Projects</p>
+<button onclick="alert('Joined AI Club')">Join</button>
+</div>
+
+</div>
+
+<!-- PODCASTS -->
+<div id="podcasts" class="page">
+<h2 style="padding:20px">Podcasts</h2>
+
+<div class="info">
+<h3>Placement Preparation</h3>
+<button onclick="speak('Start preparing early, practice coding daily, and build strong projects.')">Play</button>
+</div>
+
+<div class="info">
+<h3>Career Guidance</h3>
+<button onclick="speak('Choose your career based on your interests and skills.')">Play</button>
+</div>
+
+<div class="info">
+<h3>Motivation</h3>
+<button onclick="speak('Stay consistent and believe in yourself.')">Play</button>
+</div>
+
+<div class="info">
+<h3>Hackathon Tips</h3>
+<button onclick="speak('Participate in hackathons to improve skills.')">Play</button>
+</div>
+
+<div class="info">
+<h3>Announcements Overview</h3>
+<button onclick="autoAnnouncements()">Play</button>
+</div>
+
+</div>
+
+<!-- ANNOUNCEMENTS -->
+<div id="announcements" class="page">
+<h2 style="padding:20px">Announcements</h2>
+<div class="info">📅 Hackathon - April 10</div>
+<div class="info">📅 Workshop - April 15</div>
+<div class="info">📅 Cultural Fest - April 20</div>
+<div class="info">📅 TEDx - May 5</div>
+<div class="info">📅 Coding Contest - May 10</div>
+</div>
+
+</div>
+
+<script>
+
+let currentDept="";
+
+const user=document.getElementById("user");
+const pass=document.getElementById("pass");
+const msg=document.getElementById("msg");
+
+/* AUTH */
+function signup(){
+if(!user.value||!pass.value){msg.innerText="Enter details";return;}
+localStorage.setItem(user.value,pass.value);
+msg.innerText="Account created";
+}
+
+function login(){
+let stored=localStorage.getItem(user.value);
+if(stored===pass.value){
+loginPage.style.display="none";
+site.style.display="block";
+showPage("home");
+}else{
+msg.innerText="Invalid login";
+}
+}
+
+function logout(){location.reload();}
+
+/* NAV */
+function showPage(p){
+document.querySelectorAll(".page").forEach(x=>x.style.display="none");
+document.getElementById(p).style.display="block";
+
+if(p==="announcements"){
+setTimeout(autoAnnouncements,500);
+}
+}
+
+/* FLOW */
+function openYear(d){
+currentDept=d;
+branchTitle.innerText=d;
+showPage("years");
+}
+
+function openEvents(y){
+showPage("events");
+eventList.innerHTML=`
+<div class="info">
+<h3>${currentDept} Hackathon</h3>
+<p>Date: April 10</p>
+<p>Time: 10 AM</p>
+<p>Venue: Auditorium</p>
+<p>Host: Faculty</p>
+<p>Description: Technical event.</p>
+<button onclick="alert('Applied Successfully')">Apply</button>
+</div>`;
+}
+
+/* VOICE */
+function speak(text){
+let u=new SpeechSynthesisUtterance(text);
+u.pitch=1.4;
+u.rate=0.9;
+speechSynthesis.speak(u);
+}
+
+/* AUTO ANNOUNCEMENTS */
+function autoAnnouncements(){
+let text=`Welcome to announcements.
+Hackathon on April tenth.
+Workshop on April fifteenth.
+Cultural fest on April twentieth.
+TEDx on May fifth.
+Coding contest on May tenth.`;
+
+speak(text);
+}
+
+/* VOICE ASSISTANT */
+function startAssistant(){
+const recognition=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+recognition.start();
+
+recognition.onresult=function(e){
+let cmd=e.results[0][0].transcript.toLowerCase();
+
+if(cmd.includes("home")){showPage("home");speak("Opening home");}
+else if(cmd.includes("department")){showPage("departments");speak("Opening departments");}
+else if(cmd.includes("club")){showPage("clubs");speak("Opening clubs");}
+else if(cmd.includes("podcast")){showPage("podcasts");speak("Opening podcasts");}
+else if(cmd.includes("announcement")){showPage("announcements");}
+else{speak("Command not recognized");}
+};
+}
+
+</script>
+
+</body>
+</html>
